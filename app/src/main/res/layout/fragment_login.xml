@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/Bright_Blue"
+    android:gravity="center"
+    android:paddingHorizontal="40dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/usericon"
+        app:startIconTint="@null">
+        <EditText
+            android:id="@+id/eposta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_screen_edittext"
+            android:drawableLeft="@drawable/usericon"
+            android:hint="E-POSTA GİRİNİZ"
+            android:maxLines="1"
+            android:singleLine="true"></EditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+   <com.google.android.material.textfield.TextInputLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       app:passwordToggleEnabled="true"
+       app:startIconDrawable="@drawable/password"
+       app:startIconTint="@null">
+       <EditText
+           android:id="@+id/sifre"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="15dp"
+           android:background="@drawable/login_screen_edittext"
+           android:hint="ŞİFRE GİRİNİZ"></EditText>
+
+   </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/login_button_background"
+        android:text="GİRİŞ YAP"></androidx.appcompat.widget.AppCompatButton>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/register_button_background"
+        android:text="KAYIT OL"
+        android:textColor="@color/white"></androidx.appcompat.widget.AppCompatButton>
+
+
+</LinearLayout>

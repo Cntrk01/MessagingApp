@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/Bright_Blue"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="40dp"
+   >
+
+    <ImageView
+        android:id="@+id/imageViewUser"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:background="#CDCDCD"
+        android:src="@drawable/usericon" />
+
+    <TextView
+        android:id="@+id/textViewImage"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="32sp"
+        android:fontFamily="@font/square"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Click image to choose image"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:startIconTint="@null"
+        app:startIconDrawable="@drawable/usericon">
+
+        <EditText
+            android:id="@+id/kullaniciAdi"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:background="@drawable/login_screen_edittext"
+            android:drawableLeft="@drawable/usericon"
+            android:hint="Kullanıcı adı giriniz" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        app:startIconTint="@null"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/usericon">
+
+        <EditText
+            android:id="@+id/eposta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:background="@drawable/login_screen_edittext"
+            android:drawableLeft="@drawable/usericon"
+            android:hint="E-POSTA GİRİNİZ" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        app:startIconTint="@null"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/password">
+
+        <EditText
+            android:id="@+id/sifre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_screen_edittext"
+            android:hint="ŞİFRE GİRİNİZ" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        app:startIconTint="@null"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/password">
+
+        <EditText
+            android:id="@+id/sifreTekrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_screen_edittext"
+            android:hint="ŞİFREYi TEKRAR GİRİNİZ" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/register_button_background"
+        android:text="KAYIT OL"
+        android:textColor="@color/white" />
+
+</LinearLayout>
