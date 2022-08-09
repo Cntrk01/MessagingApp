@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MessagingApp/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/MessagingApp/app/src/main/res/layout/fragment_login.xml" value="0.20416666666666666" />
+        <entry key="..\:/MessagingApp/app/src/main/res/layout/item_row.xml" value="0.22" />
+        <entry key="..\:/MessagingApp/app/src/main/res/layout/item_row_message.xml" value="0.22" />
         <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/activity_login.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/activity_main.xml" value="0.1716485507246377" />
         <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
