@@ -96,6 +96,8 @@ dependencies {
     //
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    //Animated Toast Message
+    implementation 'com.github.Spikeysanju:MotionToast:1.4'
 
     //splash screen
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'

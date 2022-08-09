@@ -17,7 +17,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
         android:background="#CDCDCD"
-        android:src="@drawable/usericon" />
+        android:src="@drawable/usericon"
+        android:onClick="gorselEkle"/>
 
     <TextView
         android:id="@+id/textViewImage"

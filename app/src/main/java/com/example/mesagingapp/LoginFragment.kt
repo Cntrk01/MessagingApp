@@ -11,15 +11,38 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.mesagingapp.databinding.FragmentLoginBinding
+import com.example.mesagingapp.util.showInfoToast
+import com.example.mesagingapp.util.showSuccesfullToast
+import com.example.mesagingapp.util.showWarningToast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginFragment : Fragment() {
     private var _binding : FragmentLoginBinding?=null
     private val binding get() = _binding!!
     private lateinit var auth:FirebaseAuth
+    private lateinit var fireStore:FirebaseFirestore
+    private lateinit var name:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth=FirebaseAuth.getInstance()
+        fireStore= FirebaseFirestore.getInstance()
+
+        fireStore.collection("USERS").addSnapshotListener { value, error ->
+            if(error !=null){
+                Toast.makeText(activity,error.localizedMessage,Toast.LENGTH_SHORT).show()
+            }else{
+                if(value !=null){
+                    if(!value.isEmpty){
+                        val documents=value.documents
+                        for (i in documents){
+                            name=i.get("KullaniciAdi") as String
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
@@ -29,25 +52,23 @@ class LoginFragment : Fragment() {
         val password=binding.sifre.text
 
         binding.loginButton.setOnClickListener {
-            if(TextUtils.isEmpty(email)){
-                Toast.makeText(activity,"Kullanıcı Adı Boş Olamaz",Toast.LENGTH_SHORT).show()
-            }else if(TextUtils.isEmpty(password)){
-                Toast.makeText(activity,"Şifre Boş Olamaz",Toast.LENGTH_SHORT).show()
+            if(email.toString()==""){
+                showWarningToast("E-Mail Boş Olamaz",null,requireContext())
+            }else if(password.toString()==""){
+                showWarningToast("Şifre Boş Olamaz",null,requireContext())
             }
             else{
                 //Giriş Başarılıysa Main Ekranına gidecek
                 auth.signInWithEmailAndPassword(email.toString(),password.toString()).addOnCompleteListener {
                     val intent=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     Navigation.findNavController(view).navigate(intent)
-                }.addOnFailureListener {
-                    Toast.makeText(activity,it.toString(),Toast.LENGTH_SHORT).show()
+                    showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${name}",requireContext())
                 }
             }
         }
 
         binding.registerButton.setOnClickListener {
             //kayıt ekranına yönlenecek
-
             val intent=LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             Navigation.findNavController(view).navigate(intent)
         }
