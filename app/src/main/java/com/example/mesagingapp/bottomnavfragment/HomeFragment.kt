@@ -1,6 +1,6 @@
 package com.example.mesagingapp.bottomnavfragment
 
-import android.graphics.BitmapFactory
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,11 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.mesagingapp.R
 import com.example.mesagingapp.User
 import com.example.mesagingapp.UsersRecyclerView
 import com.example.mesagingapp.databinding.FragmentHomeBinding
-import com.example.mesagingapp.databinding.ItemRowMessageBinding
 import com.example.mesagingapp.util.showWarningToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,7 +29,8 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth= FirebaseAuth.getInstance()
     }
 
     override fun onCreateView(
@@ -55,44 +54,51 @@ class HomeFragment : Fragment() {
     }
 
     fun getUsersFromFirebase() {
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseFirestore.collection("USERS").addSnapshotListener { snapshot, error ->
-            if (error != null) {
-                showWarningToast(error.localizedMessage,null,requireContext())
-                return@addSnapshotListener
-            }
-            userList.clear()
-            val documents = snapshot?.documents
-            if (documents != null) {
-                for (document in documents) {
-                    val userName = document.get("KullaniciAdi") as String
-                    val imageUrl = document.get("GorselUrl").toString()
-                    val user = User(userName, userImage = imageUrl, "state")
-                    userList.add(user)
 
+        firebaseAuth.currentUser!!.uid.let {
+            firebaseFirestore.collection("USERS").addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    showWarningToast(error.localizedMessage,null,requireContext())
+                }
+                userList.clear()
+                val documents = snapshot?.documents
+                if (documents != null) {
+                    for (document in documents) {
+                        val userName = document.get("KullaniciAdi") as String
+                        val imageUrl = document.get("GorselUrl").toString()
+                        val user = User(userName, userImage = imageUrl, "state")
+                        val foto=document.get("GorselUrl")
+                        binding.userHomeName.text=userName
+                        if (!imageUrl.isEmpty()){
+                            Glide.with(requireContext()).load(user.userImage).into(binding.userHomeImageview)
+                        }
+
+                        userList.add(user)
+
+                    }
+                    adapter.notifyDataSetChanged()
 
                 }
-                adapter.notifyDataSetChanged()
-
             }
         }
 
         }
 
-//        firebaseFirestore.collection("USERS").get().addOnSuccessListener { snapshot ->
-//            if (snapshot.isEmpty) {
-//                return@addOnSuccessListener
+
+//        firebaseFirestore.collection("USERS").get().addOnSuccessListener {
+//            if (it.isEmpty) {
+//                showWarningToast("MESSAGE",null,requireContext())
 //            }
-//            val documents = snapshot.documents
+//            val documents = it.documents
 //            for (document in documents) {
 //                val userName = document.get("KullaniciAdi") as String
 //                val imageUrl = document.get("GorselUrl") as String
 //                val user = User(userName, userImage = imageUrl, "state")
+//                binding.userHomeName.text=userName
 //                userList.add(user)
-//            }
-//
-//        }
-
+//                if (!imageUrl.isEmpty()){
+//                       Glide.with(requireContext()).load(imageUrl).into(binding.userHomeImageview)
+//                   }
 
 
 

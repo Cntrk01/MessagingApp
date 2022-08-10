@@ -34,5 +34,13 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_messageScreenFragment"
+            app:destination="@id/messageScreenFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/messageScreenFragment"
+        android:name="com.example.mesagingapp.bottomnavfragment.bottomscreenfragment.MessageScreenFragment"
+        android:label="fragment_message_screen"
+        tools:layout="@layout/fragment_message_screen" />
 </navigation>

@@ -189,7 +189,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                             .setDisplayName(kullaniciAdi)
                             .build()
                         auth.currentUser?.updateProfile(userProfileContextCompat)
-
+                        firestore.collection("USERS").document(auth.currentUser!!.uid)
                         firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
                             if (it.isSuccessful) {
                                 val intent =
