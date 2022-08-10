@@ -79,6 +79,7 @@
         <EditText
             android:id="@+id/sifre"
             android:layout_width="wrap_content"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:maxLines="1"
@@ -98,6 +99,7 @@
         <EditText
             android:id="@+id/sifreTekrar"
             android:layout_width="wrap_content"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/login_screen_edittext"

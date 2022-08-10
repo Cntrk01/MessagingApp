@@ -25,15 +25,27 @@ class LoginFragment : Fragment() {
     private var _binding : FragmentLoginBinding?=null
     private val binding get() = _binding!!
     private lateinit var auth:FirebaseAuth
-    private lateinit var firebaseUser: FirebaseUser
     private lateinit var fireStore:FirebaseFirestore
     private lateinit var name:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth=FirebaseAuth.getInstance()
         fireStore= FirebaseFirestore.getInstance()
-        name=""
-        firebaseUser=auth.currentUser!!
+
+        fireStore.collection("USERS").addSnapshotListener { value, error ->
+            if(error !=null){
+                showWarningToast(error.localizedMessage,null,requireContext())
+            }else{
+                if(value !=null){
+                    if(!value.isEmpty){
+                        val documents=value.documents
+                        for (i in documents){
+                            name=i.get("KullaniciAdi") as String
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
@@ -41,7 +53,6 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val email=binding.eposta.text
         val password=binding.sifre.text
-
         binding.sifre.setOnEditorActionListener { textView, i, keyEvent ->
             if (i == EditorInfo.IME_ACTION_DONE) {
 
@@ -54,6 +65,26 @@ class LoginFragment : Fragment() {
                        showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ",requireContext())
                    }
                 }
+                auth.signInWithEmailAndPassword(email.toString(), password.toString())
+                    .addOnCompleteListener {
+
+                        val userProfileContextCompat = UserProfileChangeRequest.Builder()
+                            .setDisplayName(binding.sifre.text.toString())
+                            .build()
+                        auth.currentUser?.updateProfile(userProfileContextCompat)
+                        val intent = Intent(activity, MainActivity::class.java)
+                        showSuccesfullToast(
+                            "Başarılı",
+                            "Hoşgeldin ${auth.currentUser?.displayName}",
+                            requireContext()
+                        )
+                        startActivity(intent)
+                        activity?.finish()
+//                    val intent=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+//                    Navigation.findNavController(view).navigate(intent)
+//                    showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${auth.currentUser?.displayName}",requireContext())
+//                    activity?.finish()
+                    }
             }
             true
         }
@@ -66,15 +97,19 @@ class LoginFragment : Fragment() {
             }
             else{
                 //Giriş Başarılıysa Main Ekranına gidecek
+
                 auth.signInWithEmailAndPassword(email.toString(),password.toString()).addOnCompleteListener {
-                        val intent=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-                        Navigation.findNavController(view).navigate(intent)
-                        showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ",requireContext())
-                    }
+
+                    val intent=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                    Navigation.findNavController(view).navigate(intent)
+                    showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${name}",requireContext())
                 }
             }
+        }
 
         binding.registerButton.setOnClickListener {
+
+
             //kayıt ekranına yönlenecek
             val intent=LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             Navigation.findNavController(view).navigate(intent)
