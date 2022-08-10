@@ -117,13 +117,18 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             }else{
                 registerHashMap.put("GorselUrl",R.drawable.ic_launcher_background)
             }
-            firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
+            auth.createUserWithEmailAndPassword(e_posta,sifree).addOnCompleteListener {
                 if(it.isSuccessful){
-                    val intent=RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
-                    Navigation.findNavController(view).navigate(intent)
-                    showSuccesfullToast("Başarılı","Başarıyla Kayıt Olundu",requireContext())
+                    firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
+                        if(it.isSuccessful){
+                            val intent=RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
+                            Navigation.findNavController(view).navigate(intent)
+                            showSuccesfullToast("Başarılı","Başarıyla Kayıt Olundu",requireContext())
+                        }
+                    }
                 }
             }
+
         }
     }
 
