@@ -192,10 +192,14 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
                         firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
                             if (it.isSuccessful) {
-                                val intent =
-                                    RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
-                                Navigation.findNavController(view).navigate(intent)
+                                val intent = Intent(activity,MainActivity::class.java)
+                                startActivity(intent)
+                                activity?.finish()
+//                                val intent =
+//                                    RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
+//                                Navigation.findNavController(view).navigate(intent)
                                 showSuccesfullToast("Başarılı", kullaniciAdi, requireContext())
+                                activity?.finish()
                             }
                         }
                     }

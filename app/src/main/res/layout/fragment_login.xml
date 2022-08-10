@@ -38,6 +38,7 @@
            android:layout_height="wrap_content"
            android:maxLines="1"
            android:singleLine="true"
+           android:inputType="textPassword"
            android:layout_marginTop="15dp"
            android:background="@drawable/login_screen_edittext"
            android:hint="ŞİFRE GİRİNİZ"></EditText>
