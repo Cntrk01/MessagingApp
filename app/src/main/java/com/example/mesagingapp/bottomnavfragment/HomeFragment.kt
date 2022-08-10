@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
             if (documents != null) {
                 for (document in documents) {
                     val userName = document.get("KullaniciAdi") as String
-                    val imageUrl = document.get("GorselUrl") as String
+                    val imageUrl = document.get("GorselUrl").toString()
                     val user = User(userName, userImage = imageUrl, "state")
                     userList.add(user)
 

@@ -18,6 +18,7 @@ import com.example.mesagingapp.util.showSuccesfullToast
 import com.example.mesagingapp.util.showWarningToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginFragment : Fragment() {
@@ -54,10 +55,15 @@ class LoginFragment : Fragment() {
         val password=binding.sifre.text
         binding.sifre.setOnEditorActionListener { textView, i, keyEvent ->
             if (i == EditorInfo.IME_ACTION_DONE) {
+
                 auth.signInWithEmailAndPassword(email.toString(),password.toString()).addOnCompleteListener {
+                    val userProfileContextCompat = UserProfileChangeRequest.Builder()
+                        .setDisplayName("display name")
+                        .build()
+                    auth.currentUser?.updateProfile(userProfileContextCompat)
                     val intent=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     Navigation.findNavController(view).navigate(intent)
-                    showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${name}",requireContext())
+                    showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${auth.currentUser?.displayName}",requireContext())
 
                 }
             }
@@ -74,6 +80,7 @@ class LoginFragment : Fragment() {
                 //Giriş Başarılıysa Main Ekranına gidecek
 
                 auth.signInWithEmailAndPassword(email.toString(),password.toString()).addOnCompleteListener {
+
                     val intent=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     Navigation.findNavController(view).navigate(intent)
                     showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${name}",requireContext())
