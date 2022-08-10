@@ -7,7 +7,9 @@ import android.text.method.HideReturnsTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.compose.ui.text.input.ImeAction
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.mesagingapp.databinding.FragmentLoginBinding
@@ -16,6 +18,7 @@ import com.example.mesagingapp.util.showSuccesfullToast
 import com.example.mesagingapp.util.showWarningToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginFragment : Fragment() {
@@ -31,7 +34,7 @@ class LoginFragment : Fragment() {
 
         fireStore.collection("USERS").addSnapshotListener { value, error ->
             if(error !=null){
-                Toast.makeText(activity,error.localizedMessage,Toast.LENGTH_SHORT).show()
+                showWarningToast(error.localizedMessage,null,requireContext())
             }else{
                 if(value !=null){
                     if(!value.isEmpty){
@@ -50,6 +53,22 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val email=binding.eposta.text
         val password=binding.sifre.text
+        binding.sifre.setOnEditorActionListener { textView, i, keyEvent ->
+            if (i == EditorInfo.IME_ACTION_DONE) {
+
+                auth.signInWithEmailAndPassword(email.toString(),password.toString()).addOnCompleteListener {
+                    val userProfileContextCompat = UserProfileChangeRequest.Builder()
+                        .setDisplayName("display name")
+                        .build()
+                    auth.currentUser?.updateProfile(userProfileContextCompat)
+                    val intent=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                    Navigation.findNavController(view).navigate(intent)
+                    showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${auth.currentUser?.displayName}",requireContext())
+
+                }
+            }
+            true
+        }
 
         binding.loginButton.setOnClickListener {
             if(email.toString()==""){
@@ -59,7 +78,9 @@ class LoginFragment : Fragment() {
             }
             else{
                 //Giriş Başarılıysa Main Ekranına gidecek
+
                 auth.signInWithEmailAndPassword(email.toString(),password.toString()).addOnCompleteListener {
+
                     val intent=LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     Navigation.findNavController(view).navigate(intent)
                     showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${name}",requireContext())
@@ -68,6 +89,8 @@ class LoginFragment : Fragment() {
         }
 
         binding.registerButton.setOnClickListener {
+
+
             //kayıt ekranına yönlenecek
             val intent=LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             Navigation.findNavController(view).navigate(intent)
