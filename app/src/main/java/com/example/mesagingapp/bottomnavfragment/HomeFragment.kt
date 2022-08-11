@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.mesagingapp.R
 import com.example.mesagingapp.User
 import com.example.mesagingapp.UsersRecyclerView
 import com.example.mesagingapp.databinding.FragmentHomeBinding
@@ -64,16 +66,25 @@ class HomeFragment : Fragment() {
                 val documents = snapshot?.documents
                 if (documents != null) {
                     for (document in documents) {
+
                         val userName = document.get("KullaniciAdi") as String
                         val imageUrl = document.get("GorselUrl").toString()
                         val user = User(userName, userImage = imageUrl, "state")
+                        val dad = firebaseAuth.currentUser!!.displayName
                         val foto=document.get("GorselUrl")
-                        binding.userHomeName.text=userName
+
+
+                        binding.userHomeName.text= dad
                         if (!imageUrl.isEmpty()){
-                            Glide.with(requireContext()).load(user.userImage).into(binding.userHomeImageview)
+                            Glide.with(requireContext())
+                                .load(firebaseAuth.currentUser!!.photoUrl)
+                                .into(binding.userHomeImageview)
+                            //Glide.with(requireContext()).load(user.userImage).into(binding.userHomeImageview)
+                        }
+                        if (user.userName != firebaseAuth.currentUser!!.displayName){
+                            userList.add(user)
                         }
 
-                        userList.add(user)
 
                     }
                     adapter.notifyDataSetChanged()

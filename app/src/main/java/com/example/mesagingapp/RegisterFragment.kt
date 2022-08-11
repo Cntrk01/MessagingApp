@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.mesagingapp.databinding.FragmentLoginBinding
@@ -187,6 +188,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     if (it.isSuccessful) {
                         val userProfileContextCompat = UserProfileChangeRequest.Builder()
                             .setDisplayName(kullaniciAdi)
+                            .setPhotoUri(url?.toUri())
                             .build()
                         auth.currentUser?.updateProfile(userProfileContextCompat)
                         firestore.collection("USERS").document(auth.currentUser!!.uid)

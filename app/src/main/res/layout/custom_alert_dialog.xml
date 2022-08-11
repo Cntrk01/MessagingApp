@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="40dp">
+
+    <TextView
+        android:id="@+id/textViewLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helveticabold"
+        android:text="Do you want to logout"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:weightSum="2">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/login_button_background"
+            android:backgroundTint="#89FF00"
+            android:gravity="center"
+            android:text="Yes" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:background="@drawable/login_button_background"
+            android:backgroundTint="@color/custom_red_button"
+            android:gravity="center"
+
+            android:text="No" />
+
+    </LinearLayout>
+
+</LinearLayout>

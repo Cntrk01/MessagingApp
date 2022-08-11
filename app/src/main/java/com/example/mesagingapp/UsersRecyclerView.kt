@@ -30,8 +30,8 @@ class UsersRecyclerView(val userList: List<User>,val context: Context) : Recycle
         Glide.with(context).load(userList[position].userImage.toUri()).into(holder.binding.itemCircleImageView)
 
         holder.itemView.setOnClickListener {
-            val intent=HomeFragmentDirections.actionHomeFragmentToMessageScreenFragment()
-            Navigation.findNavController(it).navigate(intent)
+//            val intent=HomeFragmentDirections.actionHomeFragmentToMessageScreenFragment()
+//            Navigation.findNavController(it).navigate(intent)
         }
 
 
