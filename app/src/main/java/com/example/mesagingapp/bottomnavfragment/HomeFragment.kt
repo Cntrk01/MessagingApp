@@ -2,24 +2,23 @@ package com.example.mesagingapp.bottomnavfragment
 
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.mesagingapp.User
-import com.example.mesagingapp.UsersRecyclerView
+import com.bumptech.glide.request.RequestOptions
+import com.example.mesagingapp.R
+import com.example.mesagingapp.data.User
+import com.example.mesagingapp.adapter.UsersRecyclerView
 import com.example.mesagingapp.databinding.FragmentHomeBinding
 import com.example.mesagingapp.util.showWarningToast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),UsersRecyclerView.OnItemClickListener {
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var firebaseStorage: FirebaseStorage
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var adapter: UsersRecyclerView
 
@@ -45,17 +44,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUsersFromFirebase()
-        adapter = UsersRecyclerView(userList,requireContext())
+        adapter = UsersRecyclerView(userList,requireContext(),this)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
-
-
-
     }
 
-    fun getUsersFromFirebase() {
+    private fun getUsersFromFirebase() {
 
-        firebaseAuth.currentUser!!.uid.let {
             firebaseFirestore.collection("USERS").addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     showWarningToast(error.localizedMessage,null,requireContext())
@@ -64,47 +59,42 @@ class HomeFragment : Fragment() {
                 val documents = snapshot?.documents
                 if (documents != null) {
                     for (document in documents) {
-                        val userName = document.get("KullaniciAdi") as String
+                        val userName = document.get("KullaniciAdi") as String?
                         val imageUrl = document.get("GorselUrl").toString()
-                        val user = User(userName, userImage = imageUrl, "state")
-                        val foto=document.get("GorselUrl")
-                        binding.userHomeName.text=userName
-                        if (!imageUrl.isEmpty()){
-                            Glide.with(requireContext()).load(user.userImage).into(binding.userHomeImageview)
-                        }
-
+                        val user = User(userName!!, userImage = imageUrl, "state")
                         userList.add(user)
-
                     }
                     adapter.notifyDataSetChanged()
-
                 }
             }
+        firebaseFirestore.collection("USERS").whereEqualTo("E_posta",firebaseAuth.currentUser!!.email).addSnapshotListener { value, error ->
+            if (error != null) {
+                showWarningToast(error.localizedMessage,null,requireContext())
+            }
+            val documents = value?.documents
+            if (documents != null) {
+                for (document in documents) {
+                    val userName = document.get("KullaniciAdi").toString()
+                    val imageUrl = document.get("GorselUrl").toString()
+                    binding.userHomeName.text=userName
+                    if (!imageUrl.isEmpty()){
+                        val request=RequestOptions()
+                        request.placeholder(R.drawable.usericon)
+                        Glide.with(requireContext()).setDefaultRequestOptions(request).load(imageUrl).into(binding.userHomeImageview)
+                    }
+                }
+                }
+
+            }
         }
-
-        }
-
-
-//        firebaseFirestore.collection("USERS").get().addOnSuccessListener {
-//            if (it.isEmpty) {
-//                showWarningToast("MESSAGE",null,requireContext())
-//            }
-//            val documents = it.documents
-//            for (document in documents) {
-//                val userName = document.get("KullaniciAdi") as String
-//                val imageUrl = document.get("GorselUrl") as String
-//                val user = User(userName, userImage = imageUrl, "state")
-//                binding.userHomeName.text=userName
-//                userList.add(user)
-//                if (!imageUrl.isEmpty()){
-//                       Glide.with(requireContext()).load(imageUrl).into(binding.userHomeImageview)
-//                   }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+    override fun onItemClick(user: User) {
+        val action = HomeFragmentDirections.actionHomeFragment2ToMessageScreenFragment(user)
+        findNavController().navigate(action)
+    }
 }

@@ -11,12 +11,21 @@
         <entry key="..\:/MessagingApp/app/src/main/res/layout/item_row.xml" value="0.22" />
         <entry key="..\:/MessagingApp/app/src/main/res/layout/item_row_message.xml" value="0.22" />
         <entry key="..\:/MessagingApp/app/src/main/res/menu/bottom_navigation.xml" value="0.2453125" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/drawable/ic_launcher_background.xml" value="0.126" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/drawable/messagescreenedittext.xml" value="0.126" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/drawable/profileemailnotclick.xml" value="0.126" />
         <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/activity_login.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/activity_main.xml" value="0.1716485507246377" />
-        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_exit.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_message.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_message_screen.xml" value="0.264" />
         <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_register.xml" value="0.264" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/item_row.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/layout/item_row_message.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/CANTURK/Desktop/MessageApp-1-CAN(guncel)/app/src/main/res/menu/bottom_navigation.xml" value="0.24259259259259258" />
         <entry key="..\:/Users/CANTURK/MessageApp/app/src/main/res/drawable/login_button_background.xml" value="0.1275" />
         <entry key="..\:/Users/CANTURK/MessageApp/app/src/main/res/drawable/login_screen_edittext.xml" value="0.1275" />
         <entry key="..\:/Users/CANTURK/MessageApp/app/src/main/res/drawable/register_button_background.xml" value="0.203" />
@@ -34,5 +43,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.2" />
+      </ProjectState>
+    </option>
   </component>
 </project>

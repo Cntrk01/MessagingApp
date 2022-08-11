@@ -1,4 +1,4 @@
-package com.example.mesagingapp
+package com.example.mesagingapp.fragment
 
 import android.Manifest
 import android.content.Intent
@@ -9,27 +9,22 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
-import com.example.mesagingapp.databinding.FragmentLoginBinding
+import com.example.mesagingapp.R
+import com.example.mesagingapp.activity.MainActivity
 import com.example.mesagingapp.databinding.FragmentRegisterBinding
-import com.example.mesagingapp.util.showInfoToast
 import com.example.mesagingapp.util.showSuccesfullToast
 import com.example.mesagingapp.util.showWarningToast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import www.sanju.motiontoast.MotionToast
-import www.sanju.motiontoast.MotionToastStyle
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -157,11 +152,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         val sifreTekrar = binding.sifreTekrar.text.toString()
 
         if (kullaniciAdi == "") {
-            showWarningToast(
-                "Kullanıcı Adı Boş Olamaz",
-                "Kullanıcı Adını Doldurunuz",
-                requireContext()
-            )
+            showWarningToast("Kullanıcı Adı Boş Olamaz", "Kullanıcı Adını Doldurunuz", requireContext())
         } else if (e_posta == "") {
             showWarningToast("E-Posta Boş Olamaz", "E-Postayı Doldurunuz", requireContext())
         } else if (sifree == "") {
@@ -175,41 +166,27 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             registerHashMap.put("KullaniciAdi", kullaniciAdi)
             registerHashMap.put("E_posta", e_posta)
             registerHashMap.put("Sifre", sifree)
+
             if (url != null) {
                 registerHashMap.put("GorselUrl", url)
             } else {
-                registerHashMap.put("GorselUrl", R.drawable.ic_launcher_background)
+                registerHashMap.put("GorselUrl", R.drawable.usericon)
             }
 
-            //val user = auth.currentUser
+            firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.e("Data","Data Başarıyla Eklendi")
+                }
+            }
             auth.createUserWithEmailAndPassword(e_posta, sifree)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val userProfileContextCompat = UserProfileChangeRequest.Builder()
-                            .setDisplayName(kullaniciAdi)
-                            .build()
-                        auth.currentUser?.updateProfile(userProfileContextCompat)
-                        firestore.collection("USERS").document(auth.currentUser!!.uid)
-                        firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                val intent = Intent(activity,MainActivity::class.java)
-                                startActivity(intent)
-                                activity?.finish()
-//                                val intent =
-//                                    RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
-//                                Navigation.findNavController(view).navigate(intent)
-                                showSuccesfullToast("Başarılı", kullaniciAdi, requireContext())
-                                activity?.finish()
-                            }
-                        }
+                        val intent = Intent(activity, MainActivity::class.java)
+                        startActivity(intent)
+                        showSuccesfullToast("Başarılı", kullaniciAdi, requireContext())
                     }
 
                 }
-
-
-//                val intent=RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
-//                Navigation.findNavController(view).navigate(intent)
-//                showSuccesfullToast("Başarılı Giriş ","Hoşgeldin ${auth.currentUser?.displayName ?: "ben"}",requireContext())
         }
 
 

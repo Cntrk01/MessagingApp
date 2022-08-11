@@ -9,4 +9,9 @@
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="Setting" />
+
+    <item
+        android:id="@+id/exitFragment"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:title="Exit" />
 </menu>

@@ -1,13 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".bottomnavfragment.SettingsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".bottomnavfragment.SettingsFragment"
+    android:orientation="vertical">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        android:layout_width="180dp"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/editTextBackGround"
+        android:layout_height="180dp"
+        android:src="@drawable/usericon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Setting fragment" />
+        android:id="@+id/profileImageTexxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FOTOĞRAFI DEĞİŞTİRMEK İÇİN TIKLAYINIZ"
+        android:layout_below="@id/profileImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:textSize="14dp"
+        android:textStyle="bold"></TextView>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/profileIsim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileImageTexxt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/messagescreenedittext"
+        android:backgroundTint="@color/white"
+        android:hint="İSİM"></EditText>
+
+    <EditText
+        android:id="@+id/profileEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileIsim"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/profileemailnotclick"
+        android:focusable="false"
+        android:hint="E-MAİL"
+        android:textSize="20dp"></EditText>
+
+    <EditText
+        android:id="@+id/profileSifre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/messagescreenedittext"
+        android:backgroundTint="@color/white"
+        android:hint="ŞİFRE"
+        android:textSize="20dp"></EditText>
+
+    <EditText
+        android:id="@+id/profileState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileSifre"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/messagescreenedittext"
+        android:backgroundTint="@color/white"
+        android:hint="BİOGRAFİ HAKKINDA AÇIKLAMA"
+        android:lines="5"
+        android:textSize="15dp"></EditText>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/profileUpdateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/register_button_background"
+        android:text="GÜNCELLE"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profileState"></androidx.appcompat.widget.AppCompatButton>
+
+
+</RelativeLayout>

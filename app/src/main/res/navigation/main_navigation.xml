@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment2_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_exitFragment"
+            app:destination="@id/exitFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -28,7 +31,22 @@
         android:label="fragment_message_screen"
         tools:layout="@layout/fragment_message_screen" >
         <action
-            android:id="@+id/action_messageScreenFragment_to_settingsFragment"
+            android:id="@+id/action_messageFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.mesagingapp.data.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/exitFragment"
+        android:name="com.example.mesagingapp.fragment.ExitFragment"
+        android:label="fragment_exit"
+        tools:layout="@layout/fragment_exit" >
+        <action
+            android:id="@+id/action_exitFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_exitFragment_to_homeFragment3"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
