@@ -9,7 +9,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-
+        menuInflater
         setContentView(R.layout.activity_login)
     }
 
