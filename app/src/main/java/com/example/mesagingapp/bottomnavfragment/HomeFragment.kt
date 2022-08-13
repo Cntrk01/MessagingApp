@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 
-class HomeFragment : Fragment(),UsersRecyclerView.OnItemClickListener {
+class HomeFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var adapter: UsersRecyclerView
@@ -44,7 +44,7 @@ class HomeFragment : Fragment(),UsersRecyclerView.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUsersFromFirebase()
-        adapter = UsersRecyclerView(userList,requireContext(),this)
+        adapter = UsersRecyclerView(userList,requireContext())
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
     }
@@ -59,10 +59,14 @@ class HomeFragment : Fragment(),UsersRecyclerView.OnItemClickListener {
                 val documents = snapshot?.documents
                 if (documents != null) {
                     for (document in documents) {
-                        val userName = document.get("KullaniciAdi") as String?
+                        val userUid=document.get("UserUID") as String
+                        val userName = document.get("KullaniciAdi") as String
                         val imageUrl = document.get("GorselUrl").toString()
-                        val user = User(userName!!, userImage = imageUrl, "state")
-                        userList.add(user)
+                        val user = User(userUid,userName!!, userImage = imageUrl, "state")
+
+                        if(user.userName!=firebaseAuth.currentUser!!.displayName){
+                            userList.add(user)
+                        }
                     }
                     adapter.notifyDataSetChanged()
                 }
@@ -82,6 +86,8 @@ class HomeFragment : Fragment(),UsersRecyclerView.OnItemClickListener {
                         request.placeholder(R.drawable.usericon)
                         Glide.with(requireContext()).setDefaultRequestOptions(request).load(imageUrl).into(binding.userHomeImageview)
                     }
+
+
                 }
                 }
 
@@ -93,8 +99,4 @@ class HomeFragment : Fragment(),UsersRecyclerView.OnItemClickListener {
         _binding = null
     }
 
-    override fun onItemClick(user: User) {
-        val action = HomeFragmentDirections.actionHomeFragment2ToMessageScreenFragment(user)
-        findNavController().navigate(action)
-    }
 }

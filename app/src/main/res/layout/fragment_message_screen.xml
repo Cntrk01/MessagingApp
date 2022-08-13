@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".bottomnavfragment.bottomscreenfragment.MessageScreenFragment"
+    tools:context=".bottomnavfragment.MessageScreenFragment"
     android:orientation="vertical"
     android:background="@color/grey">
 
@@ -54,6 +54,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/messageLinearLayout"
@@ -69,6 +70,7 @@
         android:padding="10dp">
 
             <EditText
+                android:id="@+id/sendMessageText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:hint="MESAJ YAZ"

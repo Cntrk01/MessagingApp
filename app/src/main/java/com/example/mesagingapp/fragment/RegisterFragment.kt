@@ -23,6 +23,7 @@ import com.example.mesagingapp.databinding.FragmentRegisterBinding
 import com.example.mesagingapp.util.showSuccesfullToast
 import com.example.mesagingapp.util.showWarningToast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
@@ -162,6 +163,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         } else if (!sifreTekrar.equals(sifree)) {
             showWarningToast("Şifre Birbirinden Farklı Olamaz", null, requireContext())
         } else {
+
             val registerHashMap = HashMap<String, Any>()
             registerHashMap.put("KullaniciAdi", kullaniciAdi)
             registerHashMap.put("E_posta", e_posta)
@@ -173,14 +175,21 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 registerHashMap.put("GorselUrl", R.drawable.usericon)
             }
 
-            firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Log.e("Data","Data Başarıyla Eklendi")
-                }
-            }
+
             auth.createUserWithEmailAndPassword(e_posta, sifree)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
+                        val userUid=auth.currentUser!!.uid
+                        registerHashMap.put("UserUID",userUid)
+                        val update=UserProfileChangeRequest.Builder()
+                            .setDisplayName(kullaniciAdi)
+                            .build()
+                        auth.currentUser?.updateProfile(update)
+                        firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                Log.e("Data","Data Başarıyla Eklendi")
+                            }
+                        }
                         val intent = Intent(activity, MainActivity::class.java)
                         startActivity(intent)
                         showSuccesfullToast("Başarılı", kullaniciAdi, requireContext())

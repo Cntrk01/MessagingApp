@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/messageFragment"
-        android:name="com.example.mesagingapp.bottomnavfragment.bottomscreenfragment.MessageScreenFragment"
+        android:name="com.example.mesagingapp.bottomnavfragment.MessageScreenFragment"
         android:label="fragment_message_screen"
         tools:layout="@layout/fragment_message_screen" >
         <action

@@ -15,7 +15,7 @@ import com.example.mesagingapp.databinding.ItemRowMessageBinding
 import com.google.firebase.auth.FirebaseAuth
 
 
-class UsersRecyclerView(val userList: List<User>, val context: Context, private val listener:OnItemClickListener) : RecyclerView.Adapter<UsersViewHolder>() {
+class UsersRecyclerView(val userList: List<User>, val context: Context) : RecyclerView.Adapter<UsersViewHolder>() {
 
     inner class UsersViewHolder(val binding: ItemRowMessageBinding) : RecyclerView.ViewHolder(binding.root){
     }
@@ -26,25 +26,17 @@ class UsersRecyclerView(val userList: List<User>, val context: Context, private 
     }
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
-        val user=FirebaseAuth.getInstance()
         holder.binding.itemTextViewUserName.text = userList[position].userName
         holder.binding.itemTextViewState.text = userList[position].userState
         Glide.with(context).load(userList[position].userImage.toUri()).into(holder.binding.itemCircleImageView)
 
         holder.itemView.setOnClickListener {
-            val poz=userList.get(position)
-            listener.onItemClick(poz)
-
-//            val intent=HomeFragmentDirections.actionHomeFragment2ToMessageScreenFragment(poz)
-//            Navigation.findNavController(it).navigate(intent)
+            val poz=userList[position]
+          val intent=HomeFragmentDirections.actionHomeFragment2ToMessageScreenFragment(poz)
+          Navigation.findNavController(it).navigate(intent)
         }
-
-
-
     }
-    interface OnItemClickListener {
-        fun onItemClick(user: User)
-    }
+
 
     override fun getItemCount() = userList.size
 }
