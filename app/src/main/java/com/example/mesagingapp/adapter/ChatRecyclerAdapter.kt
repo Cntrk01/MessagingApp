@@ -35,34 +35,32 @@ class ChatRecyclerAdapter :RecyclerView.Adapter<ChatRecyclerAdapter.ChatHolder>(
         get() =recyclerListDiffer.currentList
             set(value)=recyclerListDiffer.submitList(value)
 
-
     override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
+
         val chat=chats.get(position)
 
-        if(chat.sender==FirebaseAuth.getInstance().currentUser!!.email.toString()){
+        if(chat.senderUid==FirebaseAuth.getInstance().currentUser!!.uid){
             return SENT_MESSAGE
         }else {
             return RECEIVED_MESSAGE
         }
+        return super.getItemViewType(position)
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatHolder {
-        if(viewType==RECEIVED_MESSAGE){
-            val view=LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left,parent,false)
-            return ChatHolder(view)
-        }else{
+        if(viewType==SENT_MESSAGE){
             val view=LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right,parent,false)
             return ChatHolder(view)
+        }else{
+            val view=LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left,parent,false)
+            return ChatHolder(view)
         }
-
-
     }
 
     override fun onBindViewHolder(holder: ChatHolder, position: Int) {
-         val textView=holder.itemView.findViewById<TextView>(R.id.txt_msg)
-        textView.text=recyclerListDiffer.currentList.get(position).message
+        val veri= holder.itemView.findViewById<TextView>(R.id.txt_msg)
+        val chat=chats.get(position)
+        veri.text=chat.message
     }
 
     override fun getItemCount(): Int {
