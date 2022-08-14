@@ -32,8 +32,8 @@ class UsersRecyclerView(val userList: List<User>, val context: Context) : Recycl
 
         holder.itemView.setOnClickListener {
             val poz=userList[position]
-          val intent=HomeFragmentDirections.actionHomeFragment2ToMessageScreenFragment(poz)
-          Navigation.findNavController(it).navigate(intent)
+            val intent=HomeFragmentDirections.actionHomeFragment2ToMessageScreenFragment(poz)
+            Navigation.findNavController(it).navigate(intent)
         }
     }
 

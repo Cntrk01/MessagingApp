@@ -62,7 +62,8 @@ class HomeFragment : Fragment() {
                         val userUid=document.get("UserUID") as String
                         val userName = document.get("KullaniciAdi") as String
                         val imageUrl = document.get("GorselUrl").toString()
-                        val user = User(userUid,userName!!, userImage = imageUrl, "state")
+                        val email=document.get("E_posta").toString()
+                        val user = User(userUid,userName!!, userImage = imageUrl, "state",email)
 
                         if(user.userName!=firebaseAuth.currentUser!!.displayName){
                             userList.add(user)
