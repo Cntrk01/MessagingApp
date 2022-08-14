@@ -18,6 +18,7 @@ class ChatRecyclerAdapter :RecyclerView.Adapter<ChatRecyclerAdapter.ChatHolder>(
     class ChatHolder(itemView:View):RecyclerView.ViewHolder(itemView){
 
     }
+
     private val diffUtil=object :DiffUtil.ItemCallback<MessageData>(){
         override fun areItemsTheSame(oldItem: MessageData, newItem: MessageData): Boolean {
             return oldItem==newItem

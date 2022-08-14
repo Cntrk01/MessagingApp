@@ -25,19 +25,20 @@ import com.google.firebase.firestore.Query
 
 class MessageScreenFragment : Fragment() {
     private val args by navArgs<MessageScreenFragmentArgs>()
-    private lateinit var _binding: FragmentMessageScreenBinding
+    private var _binding: FragmentMessageScreenBinding? = null
     private val binding get() = _binding!!
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var adapter:ChatRecyclerAdapter
-    private var chatsList= arrayListOf<MessageData>()
+    private lateinit var adapter: ChatRecyclerAdapter
+    private var chatsList = arrayListOf<MessageData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        firebaseFirestore= FirebaseFirestore.getInstance()
-        firebaseAuth= FirebaseAuth.getInstance()
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,45 +50,61 @@ class MessageScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter= ChatRecyclerAdapter()
-        binding.chatRecyclerView.adapter=adapter
-        binding.chatRecyclerView.layoutManager=LinearLayoutManager(requireContext())
+        adapter = ChatRecyclerAdapter()
+        binding.chatRecyclerView.adapter = adapter
+        binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         tanımla()
         getMessage()
     }
-    private fun  tanımla(){
-        val request=RequestOptions()
+
+    private fun tanımla() {
+        val request = RequestOptions()
         request.placeholder(R.drawable.usericon)
-        Glide.with(requireContext()).setDefaultRequestOptions(request).load(args.user.userImage).into(binding.messageUserImage)
-        binding.messageUserName.text=args.user.userName
+        Glide.with(requireContext()).setDefaultRequestOptions(request).load(args.user.userImage)
+            .into(binding.messageUserImage)
+        binding.messageUserName.text = args.user.userName
         binding.messageBackButton.setOnClickListener {
-            val intent=MessageScreenFragmentDirections.actionMessageFragmentToHomeFragment()
+            val intent = MessageScreenFragmentDirections.actionMessageFragmentToHomeFragment()
             Navigation.findNavController(requireView()).navigate(intent)
         }
 
-        if(binding.sendMessageText.text.toString()!=null){
-            binding.sendMessageButton.setOnClickListener {
+//        if (binding.sendMessageText.text.toString().trim().isNotEmpty()) {
+//            Log.d("Loglama","working")
+//            binding.sendMessageButton.setOnClickListener {
+//                Log.d("Loglama2","working")
+//                message(binding.sendMessageText.text.toString())
+//                binding.sendMessageText.setText("")
+//            }
+//        }
+        binding.sendMessageButton.setOnClickListener {
+            if (binding.sendMessageText.text.toString().isNotBlank()) {
                 message(binding.sendMessageText.text.toString())
-                binding.sendMessageButton.setText("")
+                binding.sendMessageText.text.clear()
             }
         }
 
     }
-    private fun message(message:String){
-        val id=firebaseFirestore.collection("MESSAGE").document(firebaseAuth.currentUser!!.email!!).collection(args.user.userName).document(args.user.userName).id
-        val hashMapMessage=HashMap<String,Any>()
-        hashMapMessage.put("message",message)
-        hashMapMessage.put("sender",firebaseAuth.currentUser!!.displayName!!)
-        hashMapMessage.put("receiver",args.user.userName)
-        hashMapMessage.put("time",Timestamp.now())
+
+    private fun message(message: String) {
+        val id =
+            firebaseFirestore.collection("MESSAGE").document(firebaseAuth.currentUser!!.email!!)
+                .collection(args.user.userName).document(args.user.userName).id
+        val hashMapMessage = HashMap<String, Any>()
+        hashMapMessage.put("message", message)
+        hashMapMessage.put("sender", firebaseAuth.currentUser!!.displayName!!)
+        hashMapMessage.put("receiver", args.user.userName)
+        hashMapMessage.put("time", Timestamp.now())
 
         firebaseFirestore.collection("MESSAGE").document(firebaseAuth.currentUser!!.displayName!!)
-            .collection(args.user.userName).document(args.user.userName).collection(id).add(hashMapMessage).addOnCompleteListener {
+            .collection(args.user.userName).document(args.user.userName).collection(id)
+            .add(hashMapMessage).addOnCompleteListener {
 
-        }
+            }
         firebaseFirestore.collection("MESSAGE").document(args.user.userName)
-            .collection(firebaseAuth.currentUser!!.displayName!!).document(firebaseAuth.currentUser!!.displayName!!).collection(id).add(hashMapMessage).addOnCompleteListener {
-                if(it.isSuccessful){
+            .collection(firebaseAuth.currentUser!!.displayName!!)
+            .document(firebaseAuth.currentUser!!.displayName!!).collection(id).add(hashMapMessage)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
 
                 }
             }
@@ -114,25 +131,28 @@ class MessageScreenFragment : Fragment() {
 
     }
 
-    private fun getMessage(){
-        val id=firebaseFirestore.collection("MESSAGE").document(firebaseAuth.currentUser!!.displayName!!).collection(args.user.userName).document(args.user.userName).id
+    private fun getMessage() {
+        val id = firebaseFirestore.collection("MESSAGE")
+            .document(firebaseAuth.currentUser!!.displayName!!).collection(args.user.userName)
+            .document(args.user.userName).id
         firebaseFirestore.collection("MESSAGE").document(firebaseAuth.currentUser!!.displayName!!)
-            .collection(args.user.userName).document(args.user.userName).collection(id).orderBy("time",Query.Direction.ASCENDING).addSnapshotListener { value, error ->
-                if(error !=null){
-                    showWarningToast("Hata","Hata Var",requireContext())
-                }else{
-                    if(value !=null){
-                        if (!value.isEmpty){
-                            val doc=value.documents
+            .collection(args.user.userName).document(args.user.userName).collection(id)
+            .orderBy("time", Query.Direction.ASCENDING).addSnapshotListener { value, error ->
+                if (error != null) {
+                    showWarningToast("Hata", "Hata Var", requireContext())
+                } else {
+                    if (value != null) {
+                        if (!value.isEmpty) {
+                            val doc = value.documents
                             chatsList.clear()
-                            for (i in doc){
-                                val message=i.get("message").toString()
-                                val receiver=i.get("receiver").toString()
-                                val sender=i.get("sender").toString()
-                                val mesajModel=MessageData(message, receiver, sender)
-                                Log.e("mesajlarr",mesajModel.toString())
+                            for (i in doc) {
+                                val message = i.get("message").toString()
+                                val receiver = i.get("receiver").toString()
+                                val sender = i.get("sender").toString()
+                                val mesajModel = MessageData(message, receiver, sender)
+                                Log.e("mesajlarr", mesajModel.toString())
                                 chatsList.add(mesajModel)
-                                adapter.chats=chatsList
+                                adapter.chats = chatsList
                             }
                             adapter.notifyDataSetChanged()
                         }
@@ -140,6 +160,35 @@ class MessageScreenFragment : Fragment() {
                     }
                 }
             }
+
+//        val id2 = firebaseFirestore.collection("MESSAGE")
+//            .document(firebaseAuth.currentUser!!.displayName!!).collection(args.user.userName)
+//            .document(args.user.userName).id
+//        firebaseFirestore.collection("MESSAGE").document(firebaseAuth.currentUser!!.displayName!!)
+//            .collection(args.user.userName).document(args.user.userName).collection(id2)
+//            .orderBy("time", Query.Direction.ASCENDING).addSnapshotListener { value, error ->
+//                if (error != null) {
+//                    showWarningToast("Hata", "Hata Var", requireContext())
+//                } else {
+//                    if (value != null) {
+//                        if (!value.isEmpty) {
+//                            val doc = value.documents
+//                            chatsList.clear()
+//                            for (i in doc) {
+//                                val message = i.get("message").toString()
+//                                val receiver = i.get("receiver").toString()
+//                                val sender = i.get("sender").toString()
+//                                val mesajModel = MessageData(message, receiver, sender)
+//                                Log.e("mesajlarr", mesajModel.toString())
+//                                chatsList.add(mesajModel)
+//                                adapter.chats = chatsList
+//                            }
+//                            adapter.notifyDataSetChanged()
+//                        }
+//
+//                    }
+//                }
+//            }
 
 //        firebaseFirestore.collection("MESSAGE").document(firebaseAuth.currentUser!!.uid!!)
 //            .collection(args.user.userUID).orderBy("time",Query.Direction.ASCENDING).addSnapshotListener { value, error ->
@@ -160,7 +209,12 @@ class MessageScreenFragment : Fragment() {
 //                    }
 //                }
 //            }
-        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 
 }
