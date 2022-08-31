@@ -61,6 +61,7 @@ class ChatRecyclerAdapter :RecyclerView.Adapter<ChatRecyclerAdapter.ChatHolder>(
         val veri= holder.itemView.findViewById<TextView>(R.id.txt_msg)
         val chat=chats.get(position)
         veri.text=chat.message
+
     }
 
     override fun getItemCount(): Int {

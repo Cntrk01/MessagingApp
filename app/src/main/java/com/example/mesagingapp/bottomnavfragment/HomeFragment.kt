@@ -67,6 +67,7 @@ class HomeFragment : Fragment() {
 
                         if(user.userName!=firebaseAuth.currentUser!!.displayName){
                             userList.add(user)
+
                         }
                     }
                     adapter.notifyDataSetChanged()

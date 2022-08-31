@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.example.mesagingapp.R
 import com.example.mesagingapp.activity.MainActivity
@@ -46,6 +47,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         storage = FirebaseStorage.getInstance()
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -153,7 +155,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         val sifreTekrar = binding.sifreTekrar.text.toString()
 
         if (kullaniciAdi == "") {
-            showWarningToast("Kullanıcı Adı Boş Olamaz", "Kullanıcı Adını Doldurunuz", requireContext())
+            showWarningToast(
+                "Kullanıcı Adı Boş Olamaz",
+                "Kullanıcı Adını Doldurunuz",
+                requireContext()
+            )
         } else if (e_posta == "") {
             showWarningToast("E-Posta Boş Olamaz", "E-Postayı Doldurunuz", requireContext())
         } else if (sifree == "") {
@@ -179,15 +185,15 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             auth.createUserWithEmailAndPassword(e_posta, sifree)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val userUid=auth.currentUser!!.uid
-                        registerHashMap.put("UserUID",userUid)
-                        val update=UserProfileChangeRequest.Builder()
+                        val userUid = auth.currentUser!!.uid
+                        registerHashMap.put("UserUID", userUid)
+                        val update = UserProfileChangeRequest.Builder()
                             .setDisplayName(kullaniciAdi)
                             .build()
                         auth.currentUser?.updateProfile(update)
                         firestore.collection("USERS").add(registerHashMap).addOnCompleteListener {
                             if (it.isSuccessful) {
-                                Log.e("Data","Data Başarıyla Eklendi")
+                                Log.e("Data", "Data Başarıyla Eklendi")
                             }
                         }
                         val intent = Intent(activity, MainActivity::class.java)

@@ -10,4 +10,8 @@ data class User(
     val userImage: String,
     val userState: String,
     val email:String
-    ) : Parcelable
+    ) : Parcelable {
+    override fun toString(): String {
+        return userName
+    }
+    }
